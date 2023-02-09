@@ -4,17 +4,17 @@ import java.sql.*;
 
 	public class Employee 
 	{
-
-		Connection con=null;
-		Statement s=null;
-		PreparedStatement ps=null;
+		public static Connection con=null;
+		public static Statement s=null;
+		public static PreparedStatement ps=null;
 		
 		public static String url="jdbc:mysql://localhost:3306/dept";
 		public static String username="root";
 		public static String password="admin";
 		
+		public static ResultSet rs = null;
+		
 		public void creating() 
-
 		{
 			try 
 			{
@@ -26,8 +26,7 @@ import java.sql.*;
 				
 				s.executeUpdate("create table employee (eid int primary key auto_increment , "
 								+ "ename varchar(40)not null,esal int)");
-				
-				
+					
 			} 
 			catch (ClassNotFoundException e) 
 			{
@@ -48,21 +47,14 @@ import java.sql.*;
 					if (con != null)
 					{
 						con.close();
-					}
-					
+					}			
 				}
 				catch (SQLException e) 
 				{
-				
 					e.printStackTrace();
-					
-				}
-				
-				
+				}	
 			}
-			
 		}
-		
 		public void inserting(String name,int sal)
 		{
 			try 
@@ -82,8 +74,7 @@ import java.sql.*;
 			catch (ClassNotFoundException | SQLException e)
 			{
 				e.printStackTrace();
-			}
-			
+			}		
 			finally 
 			{
 				try
@@ -95,18 +86,14 @@ import java.sql.*;
 					if (con != null)
 					{
 						con.close();
-					}
-					
+					}		
 				}
 				catch (SQLException e) 
 				{
-				
-					e.printStackTrace();
-					
+					e.printStackTrace();	
 				}
 			}
 		}
-		
 		public void updating(int id,String name,int sal)
 		{
 			try
@@ -123,7 +110,8 @@ import java.sql.*;
 				
 				ps.executeUpdate();
 				
-			} catch (ClassNotFoundException | SQLException e)
+			}
+			catch (ClassNotFoundException | SQLException e)
 			{
 				e.printStackTrace();
 			}
@@ -142,14 +130,11 @@ import java.sql.*;
 					
 				}
 				catch (SQLException e) 
-				{
-				
-					e.printStackTrace();
-					
+				{	
+					e.printStackTrace();	
 				}
 			}
 		}
-		
 		public void deleting(int id)
 		{
 			try 
@@ -169,7 +154,6 @@ import java.sql.*;
 			{
 				e.printStackTrace();
 			}
-			
 			finally
 			{
 				try
@@ -181,16 +165,63 @@ import java.sql.*;
 					if (con != null)
 					{
 						con.close();
-					}
-					
+					}		
 				}
 				catch (SQLException e) 
 				{
-				
-					e.printStackTrace();
-					
+					e.printStackTrace();	
 				}
 			}
 		}
-
+		 public void read()
+		  {
+			  try 
+			  {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				
+				con=DriverManager.getConnection(url, username, password);
+				
+				String qry="select * from employee";
+				s=con.createStatement();
+				
+				rs=s.executeQuery(qry);
+				
+				while(rs.next()==true)
+				{
+					System.out.println("eid:"+rs.getInt("eid"));
+					System.out.println("ename:"+rs.getString("ename"));
+					System.out.println("esl:"+rs.getInt("esal"));
+				}
+			  } 
+			  catch (ClassNotFoundException e) 
+			  {
+				e.printStackTrace();
+			  } 
+			  catch (SQLException e) 
+			  {
+				e.printStackTrace();
+			  }
+			  finally
+			  {
+				  try
+				  {
+					  if(rs != null)
+					  {
+						  rs.close();
+					  }
+					  if(s != null)
+					  {
+						  s.close();
+					  }
+					  if(con != null)
+					  {
+						  con.close();
+					  }
+				  }
+				  catch(SQLException e)
+				  {
+					  e.printStackTrace();
+				  }
+			  }
+		   }
 	}

@@ -8,6 +8,13 @@ public class Myprogram {
 	{
 		Employee e = new Employee();
 		boolean repeat = true;
+		System.out.println("1 : For creating Employee table");
+		System.out.println("2 : for inserting a values in table");
+		System.out.println("3 : For Updating a values in table");
+		System.out.println("4 : For deleting a values in table");
+		System.out.println("5 : For reading a values  in table");
+		System.out.println("6 : For Exit a program");
+		
 		do
 		{
 			Scanner sc = new Scanner(System.in);
@@ -46,6 +53,11 @@ public class Myprogram {
 				break;
 				
 			case 5:
+				System.out.println("values in Employee Table is : ");
+				e.read();
+				break;
+				
+			case 6:
 				repeat=false;
 				System.out.println("Program is exist");
 				break;
